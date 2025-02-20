@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .exam-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #444;
+            font-size: 1.2em;
+        }
+
+        .exam-total {
+            text-align: right;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #2196F3;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        button.clear-btn {
+            background: #f44336;
+        }
+
+        button.clear-btn:hover {
+            background: #da190b;
+        }
+
+        .saved-students {
+            margin-top: 30px;
+        }
+
+        .student-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .student-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th:first-child, td:first-child {
+            text-align: left;
+        }
+
+        .total-row {
+            font-weight: bold;
+            background: #f5f5f5;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            th, td {
+                padding: 6px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Grade Calculator</h1>
+        <form id="gradeForm">
+            <div class="input-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" required>
+            </div>
+
+            <div class="exam-section">
+                <h2>Quarterly Exam</h2>
+                <div class="input-group">
+                    <input type="number" placeholder="Hindi" class="quarterly" min="0" max="100">
+                    <input type="number" placeholder="English" class="quarterly" min="0" max="100">
+                    <input type="number" placeholder="Sanskrit" class="quarterly" min="0" max="100">
+                    <input type="number" placeholder="Math" class="quarterly" min="0" max="100">
+                    <input type="number" placeholder="Science" class="quarterly" min="0" max="100">
+                    <input type="number" placeholder="Social Science" class="quarterly" min="0" max="100">
+                    <input type="number" placeholder="Art" class="quarterly" min="0" max="100">
+                </div>
+                <div class="exam-total">Total: <span id="quarterlyTotal">0</span></div>
+            </div>
+
+            <div class="exam-section">
+                <h2>Half Yearly Exam</h2>
+                <div class="input-group">
+                    <input type="number" placeholder="Hindi" class="halfYearly" min="0" max="100">
+                    <input type="number" placeholder="English" class="halfYearly" min="0" max="100">
+                    <input type="number" placeholder="Sanskrit" class="halfYearly" min="0" max="100">
+                    <input type="number" placeholder="Math" class="halfYearly" min="0" max="100">
+                    <input type="number" placeholder="Science" class="halfYearly" min="0" max="100">
+                    <input type="number" placeholder="Social Science" class="halfYearly" min="0" max="100">
+                    <input type="number" placeholder="Art" class="halfYearly" min="0" max="100">
+                </div>
+                <div class="exam-total">Total: <span id="halfYearlyTotal">0</span></div>
+            </div>
+
+            <div class="exam-section">
+                <h2>Yearly Exam</h2>
+                <div class="input-group">
+                    <input type="number" placeholder="Hindi" class="yearly" min="0" max="100">
+                    <input type="number" placeholder="English" class="yearly" min="0" max="100">
+                    <input type="number" placeholder="Sanskrit" class="yearly" min="0" max="100">
+                    <input type="number" placeholder="Math" class="yearly" min="0" max="100">
+                    <input type="number" placeholder="Science" class="yearly" min="0" max="100">
+                    <input type="number" placeholder="Social Science" class="yearly" min="0" max="100">
+                    <input type="number" placeholder="Art" class="yearly" min="0" max="100">
+                </div>
+                <div class="exam-total">Total: <span id="yearlyTotal">0</span></div>
+            </div>
+
+            <button type="submit">Add Student</button>
+        </form>
+
+        <button class="clear-btn" onclick="clearAllData()">Clear All Data</button>
+
+        <div class="saved-students" id="savedStudents"></div>
+    </div>
+
+    <script>
+        const subjects = ['Hindi', 'English', 'Sanskrit', 'Math', 'Science', 'Social Science', 'Art'];
+        const examTypes = ['quarterly', 'halfYearly', 'yearly'];
+
+        // Initialize or load saved students from localStorage
+        let students = JSON.parse(localStorage.getItem('students') || '[]');
+        
+        // Handle form submission
+        document.getElementById('gradeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('studentName').value;
+            if (!name) return;
+
+            const student = {
+                name,
+                grades: {
+                    quarterly: {},
+                    halfYearly: {},
+                    yearly: {}
+                }
+            };
+
+            // Collect grades for each exam type
+            examTypes.forEach(examType => {
+                const inputs = document.querySelectorAll(`.${examType}`);
+                inputs.forEach((input, index) => {
+                    student.grades[examType][subjects[index]] = parseInt(input.value) || 0;
+                });
+            });
+
+            students.push(student);
+            saveAndRenderStudents();
+            this.reset();
+            updateTotals();
+        });
+
+        // Auto-focus next input on Enter
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const inputs = Array.from(document.querySelectorAll('input[type="number"]'));
+                    const currentIndex = inputs.indexOf(this);
+                    if (currentIndex < inputs.length - 1) {
+                        inputs[currentIndex + 1].focus();
+                    }
+                }
+            });
+        });
+
+        // Update totals on input change
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', updateTotals);
+        });
+
+        function updateTotals() {
+            examTypes.forEach(examType => {
+                const inputs = document.querySelectorAll(`.${examType}`);
+                const total = Array.from(inputs).reduce((sum, input) => sum + (parseInt(input.value) || 0), 0);
+                document.getElementById(`${examType}Total`).textContent = total;
+            });
+        }
+
+        function calculateTotal(grades) {
+            return Object.values(grades).reduce((sum, grade) => sum + (grade || 0), 0);
+        }
+
+        function calculateSubjectTotal(student, subject) {
+            return examTypes.reduce((sum, examType) => 
+                sum + (student.grades[examType][subject] || 0), 0);
+        }
+
+        function saveAndRenderStudents() {
+            localStorage.setItem('students', JSON.stringify(students));
+            renderStudents();
+        }
+
+        function renderStudents() {
+            const container = document.getElementById('savedStudents');
+            container.innerHTML = '';
+
+            students.forEach((student, index) => {
+                const card = document.createElement('div');
+                card.className = 'student-card';
+
+                let html = `
+                    <div class="student-name">${student.name}</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Quarterly</th>
+                                <th>Half Yearly</th>
+                                <th>Yearly</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                subjects.forEach(subject => {
+                    html += `
+                        <tr>
+                            <td>${subject}</td>
+                            ${examTypes.map(type => 
+                                `<td>${student.grades[type][subject] || 0}</td>`
+                            ).join('')}
+                            <td>${calculateSubjectTotal(student, subject)}</td>
+                        </tr>
+                    `;
+                });
+
+                html += `
+                        <tr class="total-row">
+                            <td>Total</td>
+                            ${examTypes.map(type => 
+                                `<td>${calculateTotal(student.grades[type])}</td>`
+                            ).join('')}
+                            <td>${examTypes.reduce((sum, type) => 
+                                sum + calculateTotal(student.grades[type]), 0)}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                `;
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+        }
+
+        function clearAllData() {
+            students = [];
+            localStorage.removeItem('students');
+            renderStudents();
+        }
+
+        // Initial render
+        renderStudents();
+    </script>
+</body>
+</html>
